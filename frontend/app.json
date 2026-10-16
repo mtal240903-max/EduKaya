@@ -1,0 +1,52 @@
+{
+  "expo": {
+    "name": "Edukaya",
+    "slug": "frontend",
+    "version": "1.0.0",
+    "runtimeVersion": "1.0.0",
+    "updates": {
+      "url": "https://u.expo.dev/00ef8e2e-0f63-453f-8f0e-a7ba06da9933",
+      "checkAutomatically": "ON_LOAD",
+      "fallbackToCacheTimeout": 0
+    },
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "package": "com.mtal.frontend",
+      "versionCode": 1,
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "apiUrl": "http://10.0.2.2:5000/api",
+      "eas": {
+        "projectId": "00ef8e2e-0f63-453f-8f0e-a7ba06da9933"
+      }
+    },
+    "plugins": [
+      "expo-secure-store",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "EduKaya a besoin d'accéder à tes photos pour changer ta photo de profil.",
+          "cameraPermission": "EduKaya a besoin d'accéder à l'appareil photo pour prendre ta photo de profil."
+        }
+      ],
+      "expo-font"
+    ]
+  }
+}
