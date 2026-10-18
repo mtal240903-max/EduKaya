@@ -1,21 +1,9 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context'; // 👈 Import de la zone de sécurité
 import { useTheme } from '../context/ThemeContext';
 
-// En-tête commun à toutes les pages de l'app — avant ce composant, chaque écran
-// (Accueil, Bibliothèque, Profil, Révision, Téléchargements, Abonnement...)
-// redessinait son propre en-tête avec une mise en page et des couleurs légèrement
-// différentes (logo tantôt en image, tantôt en icône Ionicons ; couleur de marque
-// tantôt cyan, tantôt bleu ciel). Un seul composant, deux variantes :
-//
-// - variant="root"  : logo Edukaya + nom/slogan de la marque, utilisé sur les pages
-//                      principales accessibles depuis la barre de navigation flottante.
-// - variant="back"  : bouton retour + titre de la page, utilisé sur les pages qu'on
-//                      atteint en creusant (réglages, visualiseur de document, panneau admin...).
-//
-// Les deux partagent la même hauteur, les mêmes couleurs (issues du thème actif) et
-// la même police — c'est ce qui rend l'en-tête visuellement identique partout.
 export default function AppHeader({
   variant = 'root',
   title,
@@ -25,7 +13,8 @@ export default function AppHeader({
   rightActions = [],
 }) {
   const { theme } = useTheme();
-  const styles = getStyles(theme);
+  const insets = useSafeAreaInsets(); // 👈 Récupération des marges de sécurité du téléphone
+  const styles = getStyles(theme, insets); // 👈 On passe les insets aux styles
 
   const handleBack = () => {
     if (onBack) return onBack();
@@ -48,7 +37,7 @@ export default function AppHeader({
       ) : (
         <View style={styles.logoContainer}>
           <Image
-            source={require('../../assets/Logoo.jpeg')}
+            source={require('../../assets/Logo_EduKaya.jpeg')}
             style={styles.logoIconImage}
             resizeMode="contain"
           />
@@ -72,20 +61,21 @@ export default function AppHeader({
             {action.showDot ? <View style={styles.actionDot} /> : null}
           </TouchableOpacity>
         ))}
-        {/* Garde la hauteur de l'en-tête stable même sans action à droite */}
         {variant === 'back' && rightActions.length === 0 ? <View style={styles.backButton} /> : null}
       </View>
     </View>
   );
 }
 
-const getStyles = (theme) => StyleSheet.create({
+const getStyles = (theme, insets) => StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
-    paddingVertical: 12,
+    // 👈 S'adapte automatiquement au contour de l'écran (encoche/Dynamic Island + padding)
+    paddingTop: Math.max(insets.top, 12), 
+    paddingBottom: 12,
     backgroundColor: theme.background,
     borderBottomWidth: 1,
     borderBottomColor: theme.border,

@@ -2,16 +2,24 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import tokenStorage from './tokenStorage';
 
-// ⚠️ Adapte cette URL à ton environnement :
-// - Émulateur Android : 'http://10.0.2.2:5000/api'
-// - Simulateur iOS    : 'http://localhost:5000/api'
-// - Téléphone réel    : 'http://<IP_DE_TON_PC>:5000/api'
-export const API_URL = 'http://192.168.60.134:5000/api';
+// 🌐 CHOISISSEZ VOTRE ENVIRONNEMENT ICI :
+// --------------------------------------------------
+// 1. Pour tester avec le backend en LOCAL (sur ton PC) :
+//    - Sur émulateur Android : 'http://10.0.2.2:5000/api'
+//    - Sur téléphone physique (mets l'IP IPv4 de ton PC via ipconfig) : 'http://192.168.X.X:5000/api'
+const LOCAL_URL = 'http://10.0.2.2:5000/api';
+
+// 2. Pour utiliser le backend de PRODUCTION (Render) :
+const PROD_URL = 'https://edukaya-backend.onrender.com/api';
+
+// 🟢 Active l'URL de ton choix en modifiant la variable ci-dessous :
+export const API_URL = PROD_URL; // Remplace par LOCAL_URL si tu veux travailler en local !
+// --------------------------------------------------
 
 const api = axios.create({
   baseURL: API_URL,
   headers: { 'Content-Type': 'application/json' },
-  timeout: 15000,
+  timeout: 30000, // Augmenté à 30s pour tolérer le délai de réveil de Render (cold start)
 });
 
 // Injecte le token JWT sur chaque requête sortante. Lu depuis SecureStore

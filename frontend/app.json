@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Edukaya",
+    "name": "EduKaya",
     "slug": "frontend",
     "version": "1.0.0",
     "runtimeVersion": "1.0.0",
@@ -10,7 +10,7 @@
       "fallbackToCacheTimeout": 0
     },
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/Logo_EduKaya.jpeg",
     "userInterfaceStyle": "light",
     "ios": {
       "supportsTablet": true
@@ -18,9 +18,7 @@
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/android-icon-foreground.png",
-        "backgroundImage": "./assets/android-icon-background.png",
-        "monochromeImage": "./assets/android-icon-monochrome.png"
+        "foregroundImage": "./assets/Logo_EduKaya.jpeg"
       },
       "package": "com.mtal.frontend",
       "versionCode": 1,
@@ -32,7 +30,7 @@
       "favicon": "./assets/favicon.png"
     },
     "extra": {
-      "apiUrl": "http://10.0.2.2:5000/api",
+      "apiUrl": "https://edukaya-backend.onrender.com/api",
       "eas": {
         "projectId": "00ef8e2e-0f63-453f-8f0e-a7ba06da9933"
       }

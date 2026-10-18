@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, StyleSheet, ActivityIndicator } from 'react-native';
 import { NavigationContainer, useNavigationContainerRef } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'; // 👈 Import crucial
 
 import { AuthProvider, useAuth } from './src/context/AuthContext';
 import { ThemeProvider, useTheme } from './src/context/ThemeContext';
@@ -31,7 +32,6 @@ function AppShell() {
   const [currentRoute, setCurrentRoute] = useState('Home');
   const navigationRef = useNavigationContainerRef();
 
-  // La bulle de navigation flottante ne doit apparaître que dans l'app connectée
   const showNavbar = isAuthenticated && !['Login', 'Register'].includes(currentRoute);
 
   if (isLoading || !themeReady) {
@@ -54,9 +54,8 @@ function AppShell() {
         if (routeName) setCurrentRoute(routeName);
       }}
     >
-      <View style={[styles.container, { backgroundColor: theme.background }]}>
-        {/* 🟢 Deux "stacks" distinctes : tant qu'il n'y a pas de session valide,
-            seuls Login/Register sont accessibles. On ne mélange jamais les deux. */}
+      {/* 🟢 SafeAreaView globale pour protéger le haut et les côtés de l'application */}
+      <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]} edges={['top', 'left', 'right']}>
         <Stack.Navigator
           initialRouteName={isAuthenticated ? 'Home' : 'Login'}
           screenOptions={{ headerShown: false, contentStyle: { backgroundColor: theme.background } }}
@@ -97,18 +96,20 @@ function AppShell() {
             }}
           />
         )}
-      </View>
+      </SafeAreaView>
     </NavigationContainer>
   );
 }
 
 export default function App() {
   return (
-    <ThemeProvider>
-      <AuthProvider>
-        <AppShell />
-      </AuthProvider>
-    </ThemeProvider>
+    <SafeAreaProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <AppShell />
+        </AuthProvider>
+      </ThemeProvider>
+    </SafeAreaProvider>
   );
 }
 
